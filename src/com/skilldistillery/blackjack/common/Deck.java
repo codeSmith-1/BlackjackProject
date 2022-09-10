@@ -22,6 +22,11 @@ public class Deck {
 		}
 		return deck;
 	}
+	
+	public void dealCard(Hand hand) {
+		Card c = dealCard();
+			hand.addCard(c);
+	}
 
 	public int checkDeckSize() {
 		return cards.size();
