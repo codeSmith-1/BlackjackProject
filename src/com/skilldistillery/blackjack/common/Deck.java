@@ -22,10 +22,10 @@ public class Deck {
 		}
 		return deck;
 	}
-	
+
 	public void dealCard(Hand hand) {
 		Card c = dealCard();
-			hand.addCard(c);
+		hand.addCard(c);
 	}
 
 	public int checkDeckSize() {

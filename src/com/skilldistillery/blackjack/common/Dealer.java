@@ -1,13 +1,12 @@
 package com.skilldistillery.blackjack.common;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class Dealer extends Player {
 
-	private Deck deck = new Deck();
-//	private Hand hand;
-
 	private ArrayList<Card> cards = hand.cards;
+	private Deck deck = new Deck();
 
 	Dealer() {
 		super();
@@ -31,16 +30,24 @@ public class Dealer extends Player {
 	}
 
 	public String showDealerHand() {
-		return "Dealer's hand " + cards.get(1);
+		return "Dealer's hand " + cards;
+	}
+
+	public void showAllDealerCards() {
+		for (Card card : cards) {
+			System.out.println(card);
+		}
 	}
 
 	public void dealerTurn() {
-		while (this.hand.getHandValue() < 17) {
-			Card c = deck.dealCard();
-			cards.add(c);
-			System.out.println(c);
+		Card c = deck.dealCard();
+		cards.add(c);
+		System.out.println("Dealer draws the " + c);
 	}
-		
 
+	public void playerHit(Player player1) {
+		Card c = deck.dealCard();
+		player1.hand.addCard(c);
 	}
+
 }
