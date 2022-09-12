@@ -40,4 +40,10 @@ public class Deck {
 		Collections.shuffle(cards);
 	}
 
+	public void printDeck() {
+		for (Card card : cards) {
+			System.out.println(card);
+		}
+	}
+
 }

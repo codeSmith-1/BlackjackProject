@@ -15,9 +15,8 @@ public class Player {
 		this.hand.addCard(c);
 	}
 
-	public void displayHand() {
-		// test without toString()
-		System.out.println(this.hand);
+	public void displayHand(String name) {
+		System.out.println(name + " hand " + hand.cards + " " + this.hand.getHandValue());
 	}
 
 	protected Hand getHand() {

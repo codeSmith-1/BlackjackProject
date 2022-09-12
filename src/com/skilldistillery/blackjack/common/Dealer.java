@@ -1,15 +1,15 @@
 package com.skilldistillery.blackjack.common;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class Dealer extends Player {
 
 	private ArrayList<Card> cards = hand.cards;
-	private Deck deck = new Deck();
+	private Deck deck;
 
 	Dealer() {
 		super();
+		deck = new Deck();
 	}
 
 	public void initalDeal(Player player1) {
@@ -19,35 +19,41 @@ public class Dealer extends Player {
 			deck.dealCard(player1.hand);
 		}
 	}
-
-	protected Deck getDeck() {
-		return deck;
+	public void showDealerHand() {
+		System.out.println("Dealer's hand " + cards + " " + this.hand.getHandValue());
 	}
-
-	// create new deck 12
-	public void getNewDeck() {
-		deck = new Deck();
+	
+	public void showDealerOneCard() {
+		System.out.println("Dealer is showing " + cards.get(0) + this.hand.getHandValue());
 	}
-
-	public String showDealerHand() {
-		return "Dealer's hand " + cards;
-	}
-
-	public void showAllDealerCards() {
-		for (Card card : cards) {
-			System.out.println(card);
-		}
-	}
-
+	
 	public void dealerTurn() {
 		Card c = deck.dealCard();
 		cards.add(c);
 		System.out.println("Dealer draws the " + c);
 	}
-
+	
+	
 	public void playerHit(Player player1) {
 		Card c = deck.dealCard();
 		player1.hand.addCard(c);
 	}
+
+	protected Deck getDeck() {
+		return deck;
+	}
+
+	protected void printDeck() {
+		deck.printDeck();
+	}
+
+	public int deckSize() {
+		return deck.checkDeckSize();
+	}
+
+	public void getNewDeck() {
+		deck = new Deck();
+	}
+
 
 }

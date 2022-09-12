@@ -7,6 +7,7 @@ import java.util.Scanner;
 public class BlackjackApp {
 	Player player1 = new Player();
 	Dealer dealer = new Dealer();
+
 	Scanner sc = new Scanner(System.in);
 
 	public static void main(String[] args) {
@@ -15,13 +16,47 @@ public class BlackjackApp {
 	}
 
 	private void run() {
-		startGame();
-		System.out.println(dealer.showDealerHand());
-		System.out.println("Player1's hand " + player1.getHand());
+		dealer.initalDeal(player1);
+		dealer.showDealerOneCard();
+		player1.displayHand("Player1");
 		playingBlackjack();
 	}
 
-	private boolean playingBlackjack() {
+	private void playingBlackjack() {
+		checkForBlackjack();
+		if (playerOptions()) return;
+		if (dealerTurn()) return;
+		evaluateWinner();
+		return;
+	}
+
+	private void playerTurn() {
+		dealer.playerHit(player1);
+		player1.displayHand("Player1");
+	}
+
+	private void checkForBlackjack() {
+		if (dealer.hand.getHandValue() == 21 && player1.hand.getHandValue() == 21) {
+			System.out.println("Dealer and Player1 have Blackjack!");
+			dealer.displayHand("Dealer");
+			return;
+		}
+
+		if (dealer.hand.getHandValue() == 21) {
+			System.out.println("Dealer has Blackjack!");
+			dealer.displayHand("Dealer");
+			System.out.println("Dealer wins!");
+			return;
+		}
+
+		if (player1.hand.getHandValue() == 21) {
+			System.out.println("Player1 has Blackjack! Player1 wins!");
+			dealer.displayHand("Dealer");
+			return;
+		}
+	}
+	
+	private boolean playerOptions() {
 		while (true) {
 			System.out.println("1 - Hit");
 			System.out.println("2 - Stand");
@@ -29,58 +64,52 @@ public class BlackjackApp {
 			do {
 				if (userMove != 1 && userMove != 2) {
 					System.out.println("Choose 1 or 2.");
+					break;
 				}
 			} while (userMove != 1 && userMove != 2);
-
 			if (userMove == 2) {
-				// no further action - eval winner.
 				System.out.println("Player1 stands.");
 				break;
-			} else {
+			} else if (userMove == 1) {
 				playerTurn();
 				if (player1.hand.getHandValue() > 21) {
 					System.out.println("Player1 busted!");
-					System.out.println();
-					dealer.showDealerHand();
-					return false;
+					dealer.displayHand("Dealer");
+					return true;
 				}
+			} else {
+				continue;
 			}
 		}
-		while (dealer.hand.getHandValue() <= 16) {
+		return false;
+	}
+
+	private boolean dealerTurn() {
+		while (dealer.hand.getHandValue() < 17 || dealer.hand.getHandValue() < player1.hand.getHandValue()) {
 			System.out.println("Dealer's turn.");
 			dealer.dealerTurn();
-			dealer.showDealerHand();
 			if (dealer.hand.getHandValue() > 21) {
+				dealer.displayHand("Dealer");
 				System.out.println("Dealer busted. You win!");
+				return true;
 			}
-			return true;
 		}
+		return false;
+	}
+
+	
+	private void evaluateWinner() {
 		if (dealer.hand.getHandValue() == player1.hand.getHandValue()) {
 			System.out.println("Tie.");
-			return true;
 		} else if (dealer.hand.getHandValue() > player1.hand.getHandValue()) {
+			dealer.displayHand("Dealer");
 			System.out.println("Dealer wins " + dealer.hand.getHandValue() + " points to " + player1.hand.getHandValue()
 					+ " points.");
 		} else {
-			dealer.showAllDealerCards();
+			dealer.showDealerHand();
 			System.out.println("You win, " + +player1.hand.getHandValue() + " points to " + dealer.hand.getHandValue()
 					+ " points.");
-			return true;
 		}
-		return true;
-	}
-
-	private void findWinner() {
-		// hit on 16
-	}
-
-	private void startGame() {
-		dealer.initalDeal(player1);
-	}
-
-	private void playerTurn() {
-		dealer.playerHit(player1);
-		System.out.println("player1s hand " + player1.getHand());
 	}
 
 }
