@@ -23,7 +23,7 @@ public class BlackjackApp {
 	}
 
 	private void playingBlackjack() {
-		checkForBlackjack();
+		if (checkForBlackjack()) return;
 		if (playerOptions()) return;
 		if (dealerTurn()) return;
 		evaluateWinner();
@@ -35,25 +35,26 @@ public class BlackjackApp {
 		player1.displayHand("Player1");
 	}
 
-	private void checkForBlackjack() {
+	private boolean checkForBlackjack() {
 		if (dealer.hand.getHandValue() == 21 && player1.hand.getHandValue() == 21) {
 			System.out.println("Dealer and Player1 have Blackjack!");
 			dealer.displayHand("Dealer");
-			return;
+			return true;
 		}
 
 		if (dealer.hand.getHandValue() == 21) {
 			System.out.println("Dealer has Blackjack!");
 			dealer.displayHand("Dealer");
 			System.out.println("Dealer wins!");
-			return;
+			return true;
 		}
 
 		if (player1.hand.getHandValue() == 21) {
 			System.out.println("Player1 has Blackjack! Player1 wins!");
 			dealer.displayHand("Dealer");
-			return;
+			return true;
 		}
+		return false;
 	}
 	
 	private boolean playerOptions() {
@@ -88,6 +89,7 @@ public class BlackjackApp {
 		while (dealer.hand.getHandValue() < 17 || dealer.hand.getHandValue() < player1.hand.getHandValue()) {
 			System.out.println("Dealer's turn.");
 			dealer.dealerTurn();
+			
 			if (dealer.hand.getHandValue() > 21) {
 				dealer.displayHand("Dealer");
 				System.out.println("Dealer busted. You win!");
@@ -101,10 +103,13 @@ public class BlackjackApp {
 	private void evaluateWinner() {
 		if (dealer.hand.getHandValue() == player1.hand.getHandValue()) {
 			System.out.println("Tie.");
+			dealer.displayHand("Dealer");
+
 		} else if (dealer.hand.getHandValue() > player1.hand.getHandValue()) {
 			dealer.displayHand("Dealer");
 			System.out.println("Dealer wins " + dealer.hand.getHandValue() + " points to " + player1.hand.getHandValue()
 					+ " points.");
+			
 		} else {
 			dealer.showDealerHand();
 			System.out.println("You win, " + +player1.hand.getHandValue() + " points to " + dealer.hand.getHandValue()

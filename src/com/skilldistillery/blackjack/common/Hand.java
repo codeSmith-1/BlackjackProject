@@ -17,12 +17,6 @@ public abstract class Hand {
 		cards.add(card);
 	}
 
-	public void clearHand() {
-		for (int i = 0; i < cards.size() + 1; i++) {
-			cards.remove(0);
-		}
-	}
-
 	@Override
 	public String toString() {
 		return "" + cards;

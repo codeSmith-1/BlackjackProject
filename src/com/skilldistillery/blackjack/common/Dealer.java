@@ -16,7 +16,7 @@ public class Dealer extends Player {
 		deck.shuffleDeck();
 		for (int i = 0; i < 2; i++) {
 			deck.dealCard(this.hand);
-			deck.dealCard(player1.hand);
+			deck.dealCard(player1.getHand());
 		}
 	}
 	public void showDealerHand() {
@@ -24,7 +24,7 @@ public class Dealer extends Player {
 	}
 	
 	public void showDealerOneCard() {
-		System.out.println("Dealer is showing " + cards.get(0) + this.hand.getHandValue());
+		System.out.println("Dealer is showing " + cards.get(0));
 	}
 	
 	public void dealerTurn() {
